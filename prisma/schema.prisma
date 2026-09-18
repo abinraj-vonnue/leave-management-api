@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum LeaveType{
+  annual
+  sick
+  casual
+  other
+}
+enum LeaveStatus{
+  approved
+  pending
+  rejected
+  cancelled
+}
+
+model Employee{
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+
+  leaveRequests LeaveRequest[]
+}
+
+
+model LeaveRequest{
+  id Int @id @default(autoincrement())
+  employeeId Int
+  
+
+  type  LeaveType
+  startDate DateTime
+  endDate DateTime 
+  duration Int
+  reason String
+  status  LeaveStatus @default(pending)
+  attachment String?
+
+  submittedDate DateTime @default(now())
+
+  employee  Employee @relation(fields: [employeeId], references: [id])
+
+  @@index([employeeId])
+}
