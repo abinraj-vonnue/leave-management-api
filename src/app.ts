@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import morgan from "morgan";
 import cors from "cors";
 import { leaveRequestRouter } from "./modules/leaveRequests/leaveRequest.routes";
+import { LeaveBalanceRouter } from "./modules/leaveBalances/leaveBalance.routes";
 
 export const app = express();
 
@@ -18,3 +19,4 @@ app.get("/api/health", (_req: Request, res: Response) => {
 });
 
 app.use("/api/leave-requests", leaveRequestRouter);
+app.use("/api/leave-balance", LeaveBalanceRouter);
